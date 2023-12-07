@@ -1,10 +1,11 @@
 // create express app
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
+const express = require("express"),
+  app = express(),
+  bodyParser = require("body-parser"),
+  PORT = process.env.PORT || 8080;
 
-// set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const rootPrefix = ".",
+  userRoutes = require(rootPrefix + "/routes/users");
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -16,9 +17,8 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the application." });
-});
+// Users routes
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
